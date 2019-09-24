@@ -67,6 +67,8 @@ const parseLogGroup = logGroup => {
 
 exports.handler = async event => {
   try {
+    if (!event.awslog) throw new Error("awslogs is missing.");
+
     const payload = new Buffer(event.awslogs.data, "base64");
     const resultRaw = await gunzip(payload);
     const resultParsed = JSON.parse(resultRaw.toString("ascii"));
