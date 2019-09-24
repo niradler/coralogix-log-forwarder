@@ -1,0 +1,23 @@
+service: log-service
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: us-east-1
+  versionFunctions: false
+  timeout: 60
+  environment:
+    NODE_ENV: ${self:custom.stage}
+    SERVICE_NAME: ${self:service}
+    private_key: coralogix-private-key
+
+functions:
+  log-forwarder:
+    handler: functions/log-forwarder.handler
+
+custom:
+  stage: ${opt:stage,''}
+
+package:
+  exclude:
+    - .git/**
